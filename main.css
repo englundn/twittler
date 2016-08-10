@@ -1,0 +1,44 @@
+button {
+	font-size: 20px;
+}
+
+div {
+	font-size: 15px;
+	padding: 4px;
+	border-top: 1px solid gray;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.user,
+.message,
+.time{
+	display: inline-block;
+}
+.user,
+.time{
+	width: 20%;
+}
+.message{
+	width: 60%;
+}
+
+
+.tweetdiv:before,
+.tweetdiv:after {
+  content: "";
+  display: table;
+}
+.tweetdiv:after {
+  clear: both;
+}
+.tweetdiv {
+  clear: both;
+  *zoom: 1;
+}
+.tweetdiv:nth-child(even) {
+	background-color: gray;
+}
+.tweetdiv:nth-child(odd) {
+	background-color: white;
+}
