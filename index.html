@@ -7,7 +7,9 @@
     <script src="data_generator.js"></script>
   </head>
   <body>
-    <button type="button">Refresh Feed</button>
+    <div>
+      <h1>Twittler</h1> <button type="button">Refresh Feed</button>
+    </div>
     <tweets>
     </tweets>
     <script>
@@ -21,7 +23,8 @@
           var tweet = streams.home[index];
           var user = '@' + tweet.user + ': ';
           var message = tweet.message;
-          var time = new Date().toLocaleString('en-US').split(' ')[1];
+          var time = new Date().toLocaleString('en-US').split(' ');
+          time = time[1].concat(' ',time[2]);
           var $tweet = $('<div class="tweetdiv"><section class="user"></section><section class="message"></section><section class="time"></section></div>');
           $tweet.find('.user').text(user);
           $tweet.find('.message').text(message);
@@ -29,13 +32,14 @@
           $tweet.appendTo($tweets);
           index -= 1;
         }
-        $('button').on('click',function(event) {
+        $('button').on('click',function() {
           index = numTweets;
           while(index < streams.home.length){
-      var tweet = streams.home[index];
+        var tweet = streams.home[index];
           var user = '@' + tweet.user + ': ';
           var message = tweet.message;
-          var time = new Date().toLocaleString('en-US').split(' ')[1];
+          var time = new Date().toLocaleString('en-US').split(' ');
+          time = time[1].concat(' ',time[2]);
           var $tweet = $('<div class="tweetdiv"><section class="user"></section><section class="message"></section><section class="time"></section></div>');
           $tweet.find('.user').text(user);
           $tweet.find('.message').text(message);
@@ -45,6 +49,27 @@
           }
           numTweets = streams.home.length;
         })
+    $('.user').on('click',function(){
+          var $tweets = $('tweets');
+          var user = $(this).text();
+          user = user.substr(1,user.length-3)
+          var index = streams.users[user].length - 1;
+          numTweets = streams.users[user].length;
+          $tweets.html('');
+          while(index >= 0){
+            var tweet = streams.users[user][index];
+            var user = '@' + tweet.user + ': ';
+            var message = tweet.message;
+          var time = new Date().toLocaleString('en-US').split(' ');
+          time = time[1].concat(' ',time[2]);
+          var $tweet = $('<div class="tweetdiv"><section class="user"></section><section class="message"></section><section class="time"></section></div>');
+            $tweet.find('.user').text(user);
+            $tweet.find('.message').text(message);
+            $tweet.find('.time').text(time);
+            $tweet.appendTo($tweets);
+            index -= 1;
+          }
+      });
       });
 
     </script>
