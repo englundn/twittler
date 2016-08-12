@@ -8,13 +8,14 @@
   </head>
   <body>
     <div>
-      <h1>Twittler</h1> <button type="button">Refresh Feed</button>
+      <h1>Twittler</h1>
+      <button type="button">Refresh Feed</button>
     </div>
     <tweets>
     </tweets>
     <script>
 
-      $(document).ready(function(){
+      var loadTweets = function(){
         var $tweets = $('tweets');
         $tweets.html('');
         var index = streams.home.length - 1;
@@ -25,53 +26,42 @@
           var message = tweet.message;
           var time = new Date().toLocaleString('en-US').split(' ');
           time = time[1].concat(' ',time[2]);
-          var $tweet = $('<div class="tweetdiv"><section class="user"></section><section class="message"></section><section class="time"></section></div>');
+          var $tweet = $('<div class="tweetdiv" user="' + tweet.user + '"><section class="user"></section><section class="message"></section><section class="time"></section></div>');
           $tweet.find('.user').text(user);
           $tweet.find('.message').text(message);
           $tweet.find('.time').text(time);
           $tweet.appendTo($tweets);
           index -= 1;
         }
+      }
+      $(document).ready(function(){
+        loadTweets();
+
         $('button').on('click',function() {
-          index = numTweets;
-          while(index < streams.home.length){
-        var tweet = streams.home[index];
-          var user = '@' + tweet.user + ': ';
-          var message = tweet.message;
-          var time = new Date().toLocaleString('en-US').split(' ');
-          time = time[1].concat(' ',time[2]);
-          var $tweet = $('<div class="tweetdiv"><section class="user"></section><section class="message"></section><section class="time"></section></div>');
-          $tweet.find('.user').text(user);
-          $tweet.find('.message').text(message);
-          $tweet.find('.time').text(time);
-            $tweet.prependTo($tweets);
-            index += 1;
-          }
-          numTweets = streams.home.length;
+        loadTweets();
+    $('.user').on('click',function(){
+          var username = $(this).parent().attr('user');
+          $('tweets').find(".tweetdiv[user!=" + username + "]").remove();
+        });
         })
     $('.user').on('click',function(){
-          var $tweets = $('tweets');
-          var user = $(this).text();
-          user = user.substr(1,user.length-3)
-          var index = streams.users[user].length - 1;
-          numTweets = streams.users[user].length;
-          $tweets.html('');
-          while(index >= 0){
-            var tweet = streams.users[user][index];
-            var user = '@' + tweet.user + ': ';
-            var message = tweet.message;
-          var time = new Date().toLocaleString('en-US').split(' ');
-          time = time[1].concat(' ',time[2]);
-          var $tweet = $('<div class="tweetdiv"><section class="user"></section><section class="message"></section><section class="time"></section></div>');
-            $tweet.find('.user').text(user);
-            $tweet.find('.message').text(message);
-            $tweet.find('.time').text(time);
-            $tweet.appendTo($tweets);
-            index -= 1;
-          }
+          var username = $(this).parent().attr('user');
+          $('tweets').find(".tweetdiv[user!=" + username + "]").remove();
       });
       });
 
     </script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
